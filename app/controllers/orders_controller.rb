@@ -27,7 +27,6 @@ class OrdersController < ApplicationController
     @order.buyer_id = current_user.id
     @order.seller_id = @seller.id
 
-    require "stripe"
     Stripe.api_key = ENV["STRIPE_API_KEY"]
     token = params[:stripeToken]
 
@@ -35,7 +34,7 @@ class OrdersController < ApplicationController
       charge = Stripe::Charge.create(
         :amount => (@listing.price = 100).floor,
         :currency => "usd",
-        :card => token
+        :customer => current_user.id
         )
       flash[:notice] = "Thanks for ordering!"
     rescue Stripe::CardError => e
