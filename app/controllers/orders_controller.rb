@@ -36,11 +36,11 @@ class OrdersController < ApplicationController
         :currency => "usd",
         :source => token
         )
-      flash[:notice] = "Thanks for ordering!"
+      #flash[:notice] = "Thanks for ordering!"
     rescue Stripe::CardError => e
       flash[:danger] = e.message
     end
-    
+
 
     respond_to do |format|
       if @order.save
